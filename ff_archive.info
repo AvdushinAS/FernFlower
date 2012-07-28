@@ -1,0 +1,7 @@
+name = FernFlower Archive
+description = FernFlower Archive support module
+package = FernFlower
+core = 7.x
+version = 0.1
+
+files[] = ff_archive.module
