@@ -5,3 +5,6 @@ core = 7.x
 version = 0.1
 
 files[] = ff_archive.module
+files[] = include/ff_archive.field.shedule.inc
+
+dependencies[] = date

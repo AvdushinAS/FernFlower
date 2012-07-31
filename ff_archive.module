@@ -2,5 +2,106 @@
   /**
    * @file
    * 
+   * Module containts fields and entity for FernFlower Archive   * 
    */
+   
+   module_load_include('inc', 'ff_archive', 'include/ff_archive.field.shedule');
+   module_load_include('inc', 'ff_archive', 'include/ff_archive.field.participant');
+
+  /**
+  * Implements hook_help().
+  */
+  function ff_archive_help($path, $arg) {
+     if($path === 'admin/help/ff_archive') {
+       return t('Help will be here');
+    }
+  }
+
+  /**
+   * Implements hook_field_info()
+   * 
+   * Declares new fields, used by FernFlower Archive
+   */
+  function ff_archive_field_info() {
+    return array (
+      'shedule' => shedule_get_field_info(),
+      'participant' => participant_get_field_info(),
+    );
+  }
+  
+  /**
+   * Implements hook_field_is_empty()
+   */
+  function ff_archive_field_is_empty($item, $field) {
+    switch ($field['type']) {
+      case 'shedule': return shedule_is_empty($item);
+      case 'participant': return participant_is_empty($item);
+    }
+    return FALSE;
+  }
+  
+  function ff_archive_field_validate($entity_type, $entity, $field, $instance, 
+                                     $langcode, $items, &$errors) {
+    switch ($field['type']) {
+      case 'shedule' :    shedule_validate($entity_type, $entity, $field, 
+                                        $instance, $langcode, $items, $errors);
+                          break;
+      case 'participant': participant_validate($entity_type, $entity, $field, 
+                                        $instance, $langcode, $items, $errors);
+                          break;
+    }
+  }
+  
+  /**
+   * Widgets for FernFlower Archive field types
+   */
+  
+  /**
+   * Returns widgets array for FernFlower Archive field types
+   * @return array
+   */
+  function ff_archive_field_widget_info() {
+    return array(
+      'shedule_widget' => shedule_get_widget(),
+      'participant_widget' => participant_get_widget(),
+    );
+  }
+  
+  function ff_archive_field_widget_form(&$form, &$form_state, $field, $instance, 
+                                  $langcode, $items, $delta, $element) {
+    switch ($instance['widget']['type']) {
+      case 'shedule_widget': return shedule_get_widget_form($form, $form_state, 
+                       $field, $instance, $langcode, $items, $delta, $element);
+      case 'participant_widget': return participant_get_widget_form($form, 
+          $form_state, $field, $instance, $langcode, $items, $delta, $element);
+    }
+    return $element;
+  }
+
+  /**
+   * Formatters for FernFlower Archive field types
+   */
+  
+  /**
+   * Returns formatters array for FernFlower Archive field types
+   * @return array
+   */
+  function ff_archive_field_formatter_info() {
+    return array (
+      'shedule_formatter' => shedule_get_formatter(),
+      'participant_formatter' => participant_get_formatter(),
+    );
+  }
+  
+  function ff_archive_field_formatter_view($entity_type, $entity, $field, 
+                                           $instance, $langcode, $items, 
+                                           $display) {
+    switch ($display['type']) {
+      case 'shedule_formatter': return shedule_formatter_view($entity_type, 
+                      $entity, $field, $instance, $langcode, $items, $display);
+      case 'participant_formatter': return participant_formatter_view(
+        $entity_type, $entity, $field, $instance, $langcode, $items, $display);
+    }
+    return '';
+  }
 ?>

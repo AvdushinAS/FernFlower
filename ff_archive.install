@@ -1,0 +1,38 @@
+<?php
+
+/* @file
+ * 
+ * Install file for FernFlower Archive module
+ */
+
+  module_load_include('inc', 'ff_archive', 'include/ff_archive.field.shedule');
+  module_load_include('inc', 'ff_archive', 'include/ff_archive.field.participant');
+
+/**
+ * Implements hook_install()
+ */  
+  function ff_archive_install() {
+    
+  }
+  
+/**
+ * Implements hook_uninstall()
+ */  
+  function ff_archive_uninstall() {
+    
+  }
+
+/**
+ * Implements hook_field_schema()
+ * 
+ * Defines field schemas for module fields
+ */
+function ff_archive_field_schema($field) {
+  switch ($field) {
+    case 'shedule':     return shedule_get_schema();
+    case 'participant': return participant_get_schema();
+  }  
+}
+
+
+?>
